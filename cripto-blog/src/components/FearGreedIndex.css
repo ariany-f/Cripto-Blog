@@ -5,6 +5,8 @@
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-1);
   transition: var(--transition-normal);
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .fear-greed-container:hover {
@@ -109,6 +111,8 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: var(--space-6);
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .indicators-panel {
@@ -296,16 +300,19 @@
 .chart-panel {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
-  padding: var(--space-6);
+  padding: var(--space-4);
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-1);
+  overflow: hidden;
+  max-width: 100%;
+  position: relative;
 }
 
 .chart-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4);
 }
 
 .chart-header h3 {
@@ -345,8 +352,11 @@
 }
 
 .chart-container {
-  height: 400px;
-  margin-bottom: var(--space-4);
+  height: 500px;
+  margin-bottom: var(--space-2);
+  overflow: hidden;
+  max-width: 100%;
+  width: 100%;
 }
 
 .chart-legend {
@@ -469,7 +479,9 @@
   }
   
   .chart-container {
-    height: 300px;
+    height: 350px;
+    overflow: hidden;
+    max-width: 100%;
   }
   
   .chart-legend {
@@ -503,6 +515,8 @@
   
   .chart-container {
     height: 250px;
+    overflow: hidden;
+    max-width: 100%;
   }
   
   .gauge-container {

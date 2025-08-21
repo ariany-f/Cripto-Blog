@@ -380,7 +380,9 @@ export default function FearGreedIndex() {
             </div>
           </div>
           <div className="chart-container">
-            <Line data={chartData} options={chartOptions} />
+            <div style={{ overflow: 'hidden', maxWidth: '100%', height: '100%' }}>
+              <Line data={chartData} options={chartOptions} />
+            </div>
           </div>
           <div className="chart-legend">
             <div className="legend-item">
