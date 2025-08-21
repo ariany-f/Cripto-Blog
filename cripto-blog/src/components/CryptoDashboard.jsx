@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import CryptoTable from './CryptoTable';
 import NewsCard from './NewsCard';
 import FinnhubNews from './FinnhubNews';
+import FearGreedIndex from './FearGreedIndex';
+import SentimentChart from './SentimentChart';
 import { getCryptoMarket } from '../services/marketApi';
+import { analyzeMultipleSentiments } from '../services/sentimentApi';
 import './CryptoDashboard.css';
 
 export default function CryptoDashboard() {
@@ -19,7 +22,7 @@ export default function CryptoDashboard() {
       setLoading(true);
       setError(null);
 
-      // Buscar dados do mercado
+      // Buscar dados do mercado (CoinMarketCap - API REAL)
       const market = await getCryptoMarket();
       
       // Garantir que market seja um array
@@ -30,8 +33,8 @@ export default function CryptoDashboard() {
         setMarketData([]);
       }
 
-      // Usar dados de exemplo para notícias (evitar APIs que estão falhando)
-      setNewsData([
+      // Dados de exemplo para notícias (Crypto News API - SEM CHAVE)
+      const exampleNews = [
         {
           title: 'Bitcoin atinge nova máxima do ano',
           summary: 'BTC supera resistência importante e atinge $45k, impulsionado por adoção institucional e ETF approvals',
@@ -67,14 +70,22 @@ export default function CryptoDashboard() {
           source: 'CryptoNews',
           publishedAt: '2024-01-15T06:15:00Z'
         }
-      ]);
+      ];
 
-      // Dados de sentimento de exemplo
-      setSentimentData([
-        { label: 'Positivo', value: 60, color: '#34a853' },
-        { label: 'Neutro', value: 25, color: '#9aa0a6' },
-        { label: 'Negativo', value: 15, color: '#ea4335' }
-      ]);
+      setNewsData(exampleNews);
+
+      // Analisar sentimento das notícias (Hugging Face - API REAL)
+      try {
+        const sentiments = await analyzeMultipleSentiments(exampleNews);
+        setSentimentData(sentiments);
+      } catch (sentimentError) {
+        console.warn('Erro na análise de sentimento, usando dados de exemplo:', sentimentError);
+        setSentimentData([
+          { label: 'Positivo', value: 60, color: '#34a853' },
+          { label: 'Neutro', value: 25, color: '#9aa0a6' },
+          { label: 'Negativo', value: 15, color: '#ea4335' }
+        ]);
+      }
       
       setLastUpdate(new Date());
       setIsOnline(true);
@@ -155,6 +166,16 @@ export default function CryptoDashboard() {
   const totalVolume = safeMarketData.reduce((sum, coin) => sum + (coin.volume24h || 0), 0);
   const upCoins = safeMarketData.filter(coin => coin.change24h > 0).length;
   const downCoins = safeMarketData.filter(coin => coin.change24h < 0).length;
+
+  // Debug: verificar se os dados estão sendo calculados
+  console.log('🔍 Debug Dashboard:', {
+    marketDataLength: safeMarketData.length,
+    topCoinsLength: topCoins.length,
+    totalMarketCap: totalMarketCap,
+    totalVolume: totalVolume,
+    upCoins: upCoins,
+    downCoins: downCoins
+  });
 
   if (loading && safeMarketData.length === 0) {
     return (
@@ -237,6 +258,11 @@ export default function CryptoDashboard() {
               <span className="stat-value">{safeMarketData.length - upCoins - downCoins} moedas</span>
             </div>
           </div>
+
+          {/* Fear & Greed Index */}
+          <div className="sidebar-card">
+            <FearGreedIndex />
+          </div>
         </div>
 
         {/* Conteúdo Principal */}
@@ -244,6 +270,11 @@ export default function CryptoDashboard() {
           {/* Notícias Principais */}
           <div className="main-section">
             <NewsCard newsData={newsData} sentimentData={sentimentData} />
+          </div>
+
+          {/* Gráfico de Sentimento */}
+          <div className="main-section">
+            <SentimentChart data={sentimentData} />
           </div>
 
           {/* Notícias Finnhub */}
@@ -298,4 +329,4 @@ export default function CryptoDashboard() {
       </div>
     </div>
   );
-} 
+}
