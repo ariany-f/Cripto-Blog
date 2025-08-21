@@ -167,16 +167,6 @@ export default function CryptoDashboard() {
   const upCoins = safeMarketData.filter(coin => coin.change24h > 0).length;
   const downCoins = safeMarketData.filter(coin => coin.change24h < 0).length;
 
-  // Debug: verificar se os dados estão sendo calculados
-  console.log('🔍 Debug Dashboard:', {
-    marketDataLength: safeMarketData.length,
-    topCoinsLength: topCoins.length,
-    totalMarketCap: totalMarketCap,
-    totalVolume: totalVolume,
-    upCoins: upCoins,
-    downCoins: downCoins
-  });
-
   if (loading && safeMarketData.length === 0) {
     return (
       <div className="dashboard-container">
@@ -258,11 +248,6 @@ export default function CryptoDashboard() {
               <span className="stat-value">{safeMarketData.length - upCoins - downCoins} moedas</span>
             </div>
           </div>
-
-          {/* Fear & Greed Index */}
-          <div className="sidebar-card">
-            <FearGreedIndex />
-          </div>
         </div>
 
         {/* Conteúdo Principal */}
@@ -270,6 +255,11 @@ export default function CryptoDashboard() {
           {/* Notícias Principais */}
           <div className="main-section">
             <NewsCard newsData={newsData} sentimentData={sentimentData} />
+          </div>
+
+          {/* Fear & Greed Index */}
+          <div className="main-section">
+            <FearGreedIndex />
           </div>
 
           {/* Gráfico de Sentimento */}

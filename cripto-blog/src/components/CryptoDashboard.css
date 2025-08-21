@@ -92,6 +92,8 @@
   grid-template-columns: 280px 1fr 280px;
   gap: var(--space-6);
   margin-bottom: var(--space-8);
+  min-height: 100vh;
+  align-items: start;
 }
 
 /* Sidebars */
@@ -104,21 +106,7 @@
   top: 120px;
   height: fit-content;
   z-index: 10;
-  /* Debug temporário */
-  border: 2px solid red;
-  background: rgba(255, 0, 0, 0.1);
-}
-
-.sidebar-left {
-  /* Debug temporário */
-  border-color: blue;
-  background: rgba(0, 0, 255, 0.1);
-}
-
-.sidebar-right {
-  /* Debug temporário */
-  border-color: green;
-  background: rgba(0, 255, 0, 0.1);
+  max-width: 280px;
 }
 
 .sidebar-card {
@@ -307,7 +295,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  min-height: 0;
+  min-width: 0; /* Evita overflow */
 }
 
 .dashboard-grid {
@@ -408,6 +396,11 @@
     grid-template-columns: 250px 1fr 250px;
     gap: var(--space-5);
   }
+  
+  .sidebar-left,
+  .sidebar-right {
+    max-width: 250px;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -415,12 +408,22 @@
     grid-template-columns: 220px 1fr 220px;
     gap: var(--space-4);
   }
+  
+  .sidebar-left,
+  .sidebar-right {
+    max-width: 220px;
+  }
 }
 
 @media (max-width: 1024px) {
   .dashboard-layout {
     grid-template-columns: 200px 1fr 200px;
     gap: var(--space-4);
+  }
+  
+  .sidebar-left,
+  .sidebar-right {
+    max-width: 200px;
   }
   
   .sidebar-card {
@@ -446,6 +449,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--space-4);
+    max-width: none;
   }
   
   .main-content-area {
