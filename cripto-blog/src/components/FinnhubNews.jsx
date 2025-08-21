@@ -96,6 +96,47 @@ export default function FinnhubNews() {
     }
   };
 
+  // Função para gerar números de página inteligentes
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 7; // Máximo de páginas visíveis
+    
+    if (totalPages <= maxVisiblePages) {
+      // Se há poucas páginas, mostra todas
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Se há muitas páginas, mostra um subconjunto inteligente
+      if (currentPage <= 4) {
+        // Páginas iniciais: 1, 2, 3, 4, 5, ..., totalPages
+        for (let i = 1; i <= 5; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 3) {
+        // Páginas finais: 1, ..., totalPages-4, totalPages-3, totalPages-2, totalPages-1, totalPages
+        pages.push(1);
+        pages.push('...');
+        for (let i = totalPages - 4; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        // Páginas do meio: 1, ..., currentPage-1, currentPage, currentPage+1, ..., totalPages
+        pages.push(1);
+        pages.push('...');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    
+    return pages;
+  };
+
   if (loading) {
     return (
       <div className="finnhub-container">
@@ -188,12 +229,12 @@ export default function FinnhubNews() {
             </button>
             
             <div className="page-numbers">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              {getPageNumbers().map((page, index) => (
                 <button
-                  key={page}
-                  className={`page-btn ${currentPage === page ? 'active' : ''}`}
-                  onClick={() => handlePageChange(page)}
-                  disabled={isLoadingPage}
+                  key={index}
+                  className={`page-btn ${currentPage === page ? 'active' : ''} ${page === '...' ? 'separator' : ''}`}
+                  onClick={() => page !== '...' ? handlePageChange(page) : null}
+                  disabled={isLoadingPage || page === '...'}
                 >
                   {page}
                 </button>
