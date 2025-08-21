@@ -1,14 +1,7 @@
 .news-card-container {
   background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  box-shadow: var(--shadow-1);
+  padding: var(--space-0);
   transition: var(--transition-normal);
-}
-
-.news-card-container:hover {
-  box-shadow: var(--shadow-2);
 }
 
 .news-header {
@@ -86,7 +79,6 @@
 /* Análise de Sentimento */
 .sentiment-overview {
   background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   margin-bottom: var(--space-6);

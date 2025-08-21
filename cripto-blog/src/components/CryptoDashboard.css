@@ -3,7 +3,6 @@
   max-width: var(--container-2xl);
   margin: 0 auto;
   padding: var(--space-4);
-  background: var(--bg-primary);
 }
 
 /* Barra de Status - Google Material Design */
