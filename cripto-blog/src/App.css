@@ -1,0 +1,375 @@
+/* Reset e configurações globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #ffffff;
+  color: #202124;
+  line-height: 1.6;
+  font-weight: 400;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Variáveis CSS - Design System Google */
+:root {
+  /* Cores principais - Material Design 3 */
+  --primary-color: #1a73e8;
+  --primary-hover: #1557b0;
+  --primary-light: #e8f0fe;
+  --secondary-color: #5f6368;
+  --accent-color: #34a853;
+  
+  /* Tons de cinza - Google Material */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #f1f3f4;
+  --bg-card: #ffffff;
+  --bg-overlay: rgba(0, 0, 0, 0.6);
+  
+  /* Texto - Hierarquia Google */
+  --text-primary: #202124;
+  --text-secondary: #5f6368;
+  --text-muted: #9aa0a6;
+  --text-success: #34a853;
+  --text-danger: #ea4335;
+  --text-warning: #fbbc04;
+  
+  /* Bordas e sombras - Material Design */
+  --border-color: #dadce0;
+  --border-light: #e8eaed;
+  --shadow-1: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  --shadow-2: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  --shadow-3: 0 4px 4px 0 rgba(60, 64, 67, 0.3), 0 8px 12px 6px rgba(60, 64, 67, 0.15);
+  
+  /* Espaçamentos - Sistema 8pt */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.5rem;   /* 24px */
+  --space-6: 2rem;     /* 32px */
+  --space-7: 3rem;     /* 48px */
+  --space-8: 4rem;     /* 64px */
+  
+  /* Border radius - Material Design */
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-full: 9999px;
+  
+  /* Transições - Material Design */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Tipografia - Google Fonts */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  
+  /* Container max-widths */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1400px;
+}
+
+/* Layout Principal */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+}
+
+.main-content {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+}
+
+/* Header Principal - Google Material Design */
+.main-header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--space-4) 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-1);
+}
+
+.header-container {
+  max-width: var(--container-2xl);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.site-logo {
+  font-size: var(--font-size-2xl);
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.2;
+}
+
+.site-tagline {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  letter-spacing: 0.025em;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.4;
+}
+
+/* Navegação Principal - Google Material */
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  gap: var(--space-1);
+  align-items: center;
+}
+
+.main-nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  transition: var(--transition-normal);
+  position: relative;
+  letter-spacing: 0.025em;
+  border: 1px solid transparent;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  text-transform: none;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.main-nav a:hover {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border-color: transparent;
+}
+
+.main-nav a.active {
+  color: var(--primary-color);
+  background: var(--primary-light);
+  border-color: transparent;
+}
+
+/* Footer - Google Material Design */
+.main-footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  padding: var(--space-8) 0 var(--space-6);
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: var(--container-2xl);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-7);
+}
+
+.footer-section h3 {
+  color: var(--text-primary);
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  margin-bottom: var(--space-4);
+  letter-spacing: 0.025em;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.4;
+}
+
+.footer-section p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  margin-top: var(--space-7);
+  line-height: 1.4;
+}
+
+/* Responsividade - Google Breakpoints */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    gap: var(--space-3);
+    text-align: center;
+    height: auto;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .main-nav ul {
+    gap: var(--space-1);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .main-nav a {
+    font-size: var(--font-size-xs);
+    padding: var(--space-1) var(--space-2);
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    padding: 0 var(--space-4);
+  }
+}
+
+/* Scrollbar personalizada - Google Style */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Seleção de texto - Google Style */
+::selection {
+  background: var(--primary-light);
+  color: var(--text-primary);
+}
+
+/* Focus states - Google Accessibility */
+*:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Botões globais - Google Material */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.4;
+  white-space: nowrap;
+  min-height: 40px;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+  box-shadow: var(--shadow-2);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-light);
+  box-shadow: var(--shadow-1);
+}
+
+/* Utilitários - Google Style */
+.container {
+  max-width: var(--container-2xl);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-success { color: var(--text-success); }
+.text-danger { color: var(--text-danger); }
+
+.bg-primary { background: var(--bg-primary); }
+.bg-secondary { background: var(--bg-secondary); }
+.bg-tertiary { background: var(--bg-tertiary); }
+
+.border { border: 1px solid var(--border-color); }
+.border-light { border: 1px solid var(--border-light); }
+
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+
+.shadow-1 { box-shadow: var(--shadow-1); }
+.shadow-2 { box-shadow: var(--shadow-2); }
+.shadow-3 { box-shadow: var(--shadow-3); }

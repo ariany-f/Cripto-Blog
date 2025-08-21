@@ -1,0 +1,466 @@
+/* Container Principal */
+.dashboard-container {
+  max-width: var(--container-2xl);
+  margin: 0 auto;
+  padding: var(--space-6);
+  background: var(--bg-primary);
+}
+
+/* Barra de Status - Google Material Design */
+.status-bar {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-1);
+  min-height: 64px;
+}
+
+.status-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  flex: 1;
+}
+
+.status-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--text-success);
+  flex-shrink: 0;
+}
+
+.status-indicator.online {
+  background: var(--text-success);
+}
+
+.status-indicator.offline {
+  background: var(--text-danger);
+}
+
+.refresh-button {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  white-space: nowrap;
+}
+
+.refresh-button:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-light);
+  box-shadow: var(--shadow-1);
+}
+
+.last-update {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  white-space: nowrap;
+}
+
+/* Layout Principal - Google Grid System */
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr 280px;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+/* Sidebars */
+.sidebar-left,
+.sidebar-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  position: sticky;
+  top: 120px;
+  height: fit-content;
+  z-index: 10;
+}
+
+.sidebar-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-1);
+  transition: var(--transition-normal);
+}
+
+.sidebar-card:hover {
+  box-shadow: var(--shadow-2);
+}
+
+.sidebar-card h3 {
+  color: var(--text-primary);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  letter-spacing: 0.025em;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: var(--space-3);
+  line-height: 1.4;
+}
+
+/* Contexto dos Dados */
+.data-context {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.context-label {
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  line-height: 1.3;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+}
+
+.context-time {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.2;
+}
+
+/* Itens das Sidebars */
+.top-coin-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border-color);
+  min-height: 48px;
+}
+
+.top-coin-item:last-child {
+  border-bottom: none;
+}
+
+.coin-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+  min-width: 0;
+}
+
+.coin-rank {
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.coin-symbol {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.coin-price {
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.coin-change {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  line-height: 1.2;
+  white-space: nowrap;
+  min-width: 64px;
+  text-align: center;
+}
+
+.coin-change.positive {
+  color: var(--text-success);
+  background: rgba(52, 168, 83, 0.1);
+  border-color: rgba(52, 168, 83, 0.2);
+}
+
+.coin-change.negative {
+  color: var(--text-danger);
+  background: rgba(234, 67, 53, 0.1);
+  border-color: rgba(234, 67, 53, 0.2);
+}
+
+.change-period {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Estatísticas do Mercado */
+.market-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border-color);
+  min-height: 48px;
+}
+
+.market-stat:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.4;
+}
+
+.stat-value {
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.stat-value.positive {
+  color: var(--text-success);
+}
+
+.stat-value.negative {
+  color: var(--text-danger);
+}
+
+/* Conteúdo Principal */
+.main-content-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-height: 0;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+/* Seções */
+.main-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-1);
+  transition: var(--transition-normal);
+}
+
+.main-section:hover {
+  box-shadow: var(--shadow-2);
+}
+
+.featured-section {
+  grid-column: 1 / -1;
+}
+
+.fear-greed-section {
+  grid-column: 1 / -1;
+}
+
+.news-main-section {
+  grid-column: 1 / -1;
+}
+
+.analysis-section {
+  grid-column: 1 / 2;
+}
+
+.regular-news-section {
+  grid-column: 2 / 3;
+}
+
+/* Headers das Seções */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-header h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.3;
+}
+
+.section-header p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+}
+
+/* Estados de Loading e Erro */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-8);
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  min-height: 200px;
+}
+
+.error-container {
+  background: rgba(234, 67, 53, 0.1);
+  border: 1px solid rgba(234, 67, 53, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  color: var(--text-danger);
+  text-align: center;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+}
+
+/* Responsividade - Google Breakpoints */
+@media (max-width: 1200px) {
+  .dashboard-layout {
+    grid-template-columns: 250px 1fr 250px;
+    gap: var(--space-5);
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+  
+  .sidebar-left,
+  .sidebar-right {
+    order: 2;
+    position: static;
+  }
+  
+  .main-content-area {
+    order: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: var(--space-4);
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+  
+  .featured-section,
+  .fear-greed-section,
+  .news-main-section,
+  .analysis-section,
+  .regular-news-section {
+    grid-column: 1 / -1;
+  }
+  
+  .main-section {
+    padding: var(--space-5);
+  }
+  
+  .status-content {
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: flex-start;
+  }
+  
+  .status-bar {
+    min-height: auto;
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: var(--space-3);
+  }
+  
+  .main-section {
+    padding: var(--space-4);
+  }
+  
+  .section-header {
+    padding-bottom: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+  
+  .section-header h2 {
+    font-size: var(--font-size-xl);
+  }
+} 

@@ -1,0 +1,278 @@
+.insights-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-1);
+  transition: var(--transition-normal);
+}
+
+.insights-container:hover {
+  box-shadow: var(--shadow-2);
+}
+
+.insights-header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.insights-header h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.3;
+}
+
+.insights-header p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+
+.insight-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.insight-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+  border-color: var(--border-light);
+}
+
+.insight-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+.insight-card.insight-correlation::before {
+  background: linear-gradient(90deg, #1a73e8, #4285f4);
+}
+
+.insight-card.insight-divergence::before {
+  background: linear-gradient(90deg, #ea4335, #fbbc04);
+}
+
+.insight-card.insight-volume::before {
+  background: linear-gradient(90deg, #34a853, #0f9d58);
+}
+
+.insight-card.insight-sentiment::before {
+  background: linear-gradient(90deg, #fbbc04, #ff6d01);
+}
+
+.insight-card.insight-dominance::before {
+  background: linear-gradient(90deg, #9c27b0, #673ab7);
+}
+
+.insight-card.insight-altseason::before {
+  background: linear-gradient(90deg, #00c853, #64dd17);
+}
+
+.insight-card.insight-volatility::before {
+  background: linear-gradient(90deg, #ff5722, #ff9800);
+}
+
+.insight-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.insight-icon {
+  font-size: var(--font-size-2xl);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+  border: 1px solid var(--border-color);
+}
+
+.insight-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.insight-meta h3 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+  line-height: 1.3;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+}
+
+.insight-impact {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.insight-description {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+  font-weight: 400;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+}
+
+.insight-action {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  border-left: 4px solid var(--primary-color);
+}
+
+.action-label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: var(--space-1);
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+}
+
+.insight-action p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 500;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+}
+
+.insights-footer {
+  text-align: center;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-color);
+}
+
+.insights-footer p {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.4;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  min-height: 200px;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--primary-color);
+  border-radius: var(--radius-full);
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--space-3);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .insights-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 768px) {
+  .insights-container {
+    padding: var(--space-5);
+  }
+  
+  .insight-card {
+    padding: var(--space-4);
+  }
+  
+  .insight-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  
+  .insight-icon {
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-xl);
+  }
+  
+  .insights-header h2 {
+    font-size: var(--font-size-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .insights-container {
+    padding: var(--space-4);
+  }
+  
+  .insight-card {
+    padding: var(--space-3);
+  }
+  
+  .insight-meta h3 {
+    font-size: var(--font-size-base);
+  }
+  
+  .insight-description {
+    font-size: var(--font-size-xs);
+  }
+} 

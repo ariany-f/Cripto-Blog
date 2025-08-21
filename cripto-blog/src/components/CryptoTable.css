@@ -1,0 +1,357 @@
+.crypto-table-container {
+  background: var(--gradient-secondary);
+  border-radius: var(--border-radius-lg);
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid rgba(0, 212, 170, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.crypto-table-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-primary);
+}
+
+.table-title {
+  margin: 0 0 24px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary-green);
+  text-shadow: 0 0 20px rgba(0, 212, 170, 0.3);
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(0, 212, 170, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.crypto-table {
+  width: 100%;
+  background: rgba(26, 26, 26, 0.9);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--primary-green);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(10px);
+}
+
+.crypto-table-container {
+  width: 100%;
+}
+
+/* Filtros */
+.table-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background: rgba(42, 42, 42, 0.8);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--primary-green);
+  backdrop-filter: blur(10px);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.filter-group label {
+  color: var(--primary-green);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.filter-input,
+.filter-select {
+  padding: var(--spacing-sm);
+  border: 1px solid var(--primary-green);
+  border-radius: var(--border-radius-sm);
+  background: rgba(26, 26, 26, 0.9);
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition-fast);
+  backdrop-filter: blur(10px);
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary-green-light);
+  box-shadow: 0 0 10px rgba(72, 194, 67, 0.1);
+}
+
+.filter-input::placeholder {
+  color: var(--text-gray);
+}
+
+.results-count {
+  color: var(--text-light);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: var(--spacing-sm);
+  background: rgba(72, 194, 67, 0.05);
+  border-radius: var(--border-radius-sm);
+  text-align: center;
+  border: 1px solid rgba(72, 194, 67, 0.1);
+}
+
+.crypto-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.crypto-table th {
+  background: var(--gradient-primary);
+  color: var(--black);
+  padding: var(--spacing-md);
+  text-align: left;
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--primary-green);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  user-select: none;
+}
+
+.crypto-table th.sortable:hover {
+  background: var(--gradient-secondary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-light);
+}
+
+.crypto-table th:first-child {
+  border-top-left-radius: var(--border-radius-lg);
+}
+
+.crypto-table th:last-child {
+  border-top-right-radius: var(--border-radius-lg);
+}
+
+.crypto-table td {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid rgba(72, 194, 67, 0.2);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.crypto-table tr:last-child td {
+  border-bottom: none;
+}
+
+.crypto-table tr:hover {
+  background: rgba(72, 194, 67, 0.05);
+  transition: var(--transition-fast);
+}
+
+/* Colunas específicas */
+.rank-column {
+  width: 80px;
+  text-align: center;
+  font-weight: 800;
+}
+
+.rank-badge {
+  display: inline-block;
+  background: var(--gradient-primary);
+  color: var(--black);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 30px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  box-shadow: var(--shadow-light);
+}
+
+.name-column {
+  min-width: 150px;
+}
+
+.symbol-column {
+  width: 100px;
+  font-weight: 800;
+  color: var(--primary-green);
+}
+
+.price-column {
+  width: 120px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.change-column {
+  width: 120px;
+  text-align: right;
+  font-weight: 700;
+}
+
+.volume-column {
+  width: 140px;
+  text-align: right;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.market-cap-column {
+  width: 140px;
+  text-align: right;
+  font-weight: 700;
+}
+
+/* Estados de variação */
+.change-value {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.change-value.positive {
+  color: var(--primary-green);
+  background: rgba(72, 194, 67, 0.1);
+}
+
+.change-value.negative {
+  color: #ff4444;
+  background: rgba(255, 68, 68, 0.1);
+}
+
+.change-value.neutral {
+  color: var(--text-light);
+  background: rgba(176, 176, 176, 0.1);
+}
+
+/* No Results */
+.no-results {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 600;
+  background: rgba(42, 42, 42, 0.8);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--primary-green);
+  margin-top: var(--spacing-md);
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .table-filters {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--spacing-sm);
+  }
+  
+  .crypto-table {
+    font-size: 0.9rem;
+  }
+  
+  .crypto-table th,
+  .crypto-table td {
+    padding: var(--spacing-sm);
+  }
+  
+  .rank-column {
+    width: 60px;
+  }
+  
+  .name-column {
+    min-width: 120px;
+  }
+  
+  .symbol-column {
+    width: 80px;
+  }
+  
+  .price-column,
+  .change-column {
+    width: 100px;
+  }
+  
+  .volume-column,
+  .market-cap-column {
+    width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-filters {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+  
+  .crypto-table {
+    overflow-x: auto;
+  }
+  
+  .crypto-table table {
+    min-width: 800px;
+  }
+  
+  .crypto-table th,
+  .crypto-table td {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.85rem;
+  }
+  
+  .rank-badge {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 0.8rem;
+  }
+  
+  .change-value {
+    padding: 2px var(--spacing-xs);
+    font-size: 0.8rem;
+  }
+  
+  .filter-input,
+  .filter-select {
+    font-size: 0.85rem;
+    padding: var(--spacing-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .crypto-table th,
+  .crypto-table td {
+    padding: var(--spacing-xs);
+    font-size: 0.8rem;
+  }
+  
+  .rank-badge {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 0.75rem;
+  }
+  
+  .change-value {
+    padding: 1px var(--spacing-xs);
+    font-size: 0.75rem;
+  }
+  
+  .filter-input,
+  .filter-select {
+    font-size: 0.8rem;
+  }
+} 

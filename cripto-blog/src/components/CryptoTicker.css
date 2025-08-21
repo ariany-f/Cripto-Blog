@@ -1,0 +1,253 @@
+.crypto-ticker {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--space-3) 0;
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--shadow-1);
+}
+
+.ticker-content {
+  display: flex;
+  animation: ticker-scroll 120s linear infinite;
+  white-space: nowrap;
+  gap: var(--space-4);
+  padding: 0 var(--space-4);
+  align-items: center;
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  min-width: 180px;
+  transition: var(--transition-normal);
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  position: relative;
+  box-shadow: var(--shadow-1);
+  height: 48px;
+}
+
+.ticker-item:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--border-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-2);
+}
+
+.coin-icon {
+  font-size: var(--font-size-lg);
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+  font-weight: 500;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  flex: 1;
+  justify-content: center;
+}
+
+.coin-symbol {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.coin-price {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.coin-change {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  min-width: 64px;
+  font-family: 'Google Sans', 'Manrope', sans-serif;
+  border: 1px solid transparent;
+  line-height: 1.2;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin-change.positive {
+  background: rgba(52, 168, 83, 0.1);
+  color: var(--text-success);
+  border-color: rgba(52, 168, 83, 0.2);
+}
+
+.coin-change.negative {
+  background: rgba(234, 67, 53, 0.1);
+  color: var(--text-danger);
+  border-color: rgba(234, 67, 53, 0.2);
+}
+
+.ticker-item.loading {
+  justify-content: center;
+  min-width: 200px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  height: 48px;
+}
+
+/* Animação do ticker - mais lenta e suave */
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pausar animação no hover */
+.crypto-ticker:hover .ticker-content {
+  animation-play-state: paused;
+}
+
+/* Responsividade - Google Breakpoints */
+@media (max-width: 1024px) {
+  .ticker-content {
+    gap: var(--space-3);
+    padding: 0 var(--space-3);
+  }
+  
+  .ticker-item {
+    min-width: 160px;
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-2);
+    height: 44px;
+  }
+  
+  .coin-symbol {
+    font-size: var(--font-size-xs);
+  }
+  
+  .coin-price {
+    font-size: var(--font-size-sm);
+  }
+  
+  .coin-change {
+    font-size: var(--font-size-xs);
+    min-width: 56px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ticker-content {
+    gap: var(--space-2);
+    padding: 0 var(--space-2);
+  }
+  
+  .ticker-item {
+    min-width: 140px;
+    padding: var(--space-1) var(--space-2);
+    gap: var(--space-1);
+    height: 40px;
+  }
+  
+  .coin-icon {
+    font-size: var(--font-size-base);
+    width: 20px;
+  }
+  
+  .coin-symbol {
+    font-size: var(--font-size-xs);
+  }
+  
+  .coin-price {
+    font-size: var(--font-size-xs);
+  }
+  
+  .coin-change {
+    font-size: var(--font-size-xs);
+    min-width: 48px;
+    padding: var(--space-1);
+  }
+}
+
+@media (max-width: 480px) {
+  .ticker-content {
+    gap: var(--space-1);
+    padding: 0 var(--space-1);
+  }
+  
+  .ticker-item {
+    min-width: 120px;
+    padding: var(--space-1);
+    gap: var(--space-1);
+    height: 36px;
+  }
+  
+  .coin-icon {
+    font-size: var(--font-size-sm);
+    width: 16px;
+  }
+  
+  .coin-symbol {
+    font-size: var(--font-size-xs);
+  }
+  
+  .coin-price {
+    font-size: var(--font-size-xs);
+  }
+  
+  .coin-change {
+    font-size: var(--font-size-xs);
+    min-width: 40px;
+    padding: var(--space-1);
+  }
+}
+
+/* Acessibilidade - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-content {
+    animation: none;
+  }
+  
+  .ticker-item:hover {
+    transform: none;
+  }
+}
+
+/* Efeito de brilho sutil */
+.ticker-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(72, 194, 67, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.ticker-item:hover::before {
+  left: 100%;
+} 
