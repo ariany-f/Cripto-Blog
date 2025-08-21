@@ -354,25 +354,25 @@ export default function FearGreedIndex() {
             <h3>📈 Evolução do Índice</h3>
             <div className="timeframe-selector">
               <button 
-                className={`timeframe-btn ${timeframe === 'all' ? 'active' : ''}`}
+                className={`timeframe-button ${timeframe === 'all' ? 'active' : ''}`}
                 onClick={() => setTimeframe('all')}
               >
                 Tudo
               </button>
               <button 
-                className={`timeframe-btn ${timeframe === '1m' ? 'active' : ''}`}
+                className={`timeframe-button ${timeframe === '1m' ? 'active' : ''}`}
                 onClick={() => setTimeframe('1m')}
               >
                 1M
               </button>
               <button 
-                className={`timeframe-btn ${timeframe === '1w' ? 'active' : ''}`}
+                className={`timeframe-button ${timeframe === '1w' ? 'active' : ''}`}
                 onClick={() => setTimeframe('1w')}
               >
                 1S
               </button>
               <button 
-                className={`timeframe-btn ${timeframe === '1d' ? 'active' : ''}`}
+                className={`timeframe-button ${timeframe === '1d' ? 'active' : ''}`}
                 onClick={() => setTimeframe('1d')}
               >
                 1D
