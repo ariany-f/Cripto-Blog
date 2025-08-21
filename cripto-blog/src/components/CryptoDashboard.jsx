@@ -245,6 +245,11 @@ export default function CryptoDashboard() {
             <NewsCard newsData={newsData} sentimentData={sentimentData} />
           </div>
 
+          {/* Notícias Finnhub */}
+          <div className="main-section">
+            <FinnhubNews />
+          </div>
+
           {/* Tabela de Criptomoedas */}
           <div className="main-section">
             <CryptoTable marketData={safeMarketData} />
