@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getCryptoNewsFinnhub } from '../services/finnhubApi';
 import './FinnhubNews.css';
 
 export default function FinnhubNews() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLoadingPage, setIsLoadingPage] = useState(false);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalNews, setTotalNews] = useState(0);
-  const [isLoadingPage, setIsLoadingPage] = useState(false);
-  const itemsPerPage = 5;
+  const [itemsPerPage] = useState(5);
 
   useEffect(() => {
-    fetchNews(1);
+    fetchNews();
   }, []);
 
   const fetchNews = async (page = 1) => {
@@ -23,127 +24,73 @@ export default function FinnhubNews() {
       } else {
         setIsLoadingPage(true);
       }
+      
       setError(null);
       
-      const response = await getCryptoNewsFinnhub(page, itemsPerPage);
+      const result = await getCryptoNewsFinnhub(page, itemsPerPage);
       
-      setNews(response.news);
-      setTotalNews(response.total);
-      setTotalPages(response.totalPages);
-      setCurrentPage(response.page);
+      setNews(result.news);
+      setTotalPages(result.totalPages);
+      setTotalNews(result.total);
+      setCurrentPage(result.page);
     } catch (err) {
-      console.error('Erro ao buscar notícias Finnhub:', err);
-      setError('Erro ao carregar notícias. Usando dados de exemplo.');
+      console.error('Erro ao buscar notícias:', err);
+      setError('Erro ao carregar notícias. Tente novamente.');
     } finally {
       setLoading(false);
       setIsLoadingPage(false);
     }
   };
 
+  const handlePageChange = (page) => {
+    if (page !== currentPage) {
+      fetchNews(page);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      handlePageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      handlePageChange(currentPage + 1);
+    }
+  };
+
   const formatDate = (dateString) => {
+    if (!dateString) return 'Data não disponível';
     const date = new Date(dateString);
-    const now = new Date();
-    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
-    
-    if (diffInHours < 1) {
-      return 'Agora mesmo';
-    } else if (diffInHours < 24) {
-      return `${diffInHours}h atrás`;
-    } else {
-      const diffInDays = Math.floor(diffInHours / 24);
-      return `${diffInDays}d atrás`;
+    return date.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const getSentimentColor = (sentiment) => {
+    switch (sentiment) {
+      case 'positive': return 'var(--text-success)';
+      case 'negative': return 'var(--text-danger)';
+      default: return 'var(--text-secondary)';
     }
   };
 
   const getSentimentIcon = (sentiment) => {
     switch (sentiment) {
-      case 'positive':
-        return '📈';
-      case 'negative':
-        return '📉';
-      default:
-        return '📊';
+      case 'positive': return '📈';
+      case 'negative': return '📉';
+      default: return '➡️';
     }
-  };
-
-  const getSentimentColor = (sentiment) => {
-    switch (sentiment) {
-      case 'positive':
-        return 'var(--text-success)';
-      case 'negative':
-        return 'var(--text-danger)';
-      default:
-        return 'var(--text-secondary)';
-    }
-  };
-
-  const handlePageChange = async (page) => {
-    if (page !== currentPage) {
-      await fetchNews(page);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  const handlePreviousPage = async () => {
-    if (currentPage > 1) {
-      await handlePageChange(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = async () => {
-    if (currentPage < totalPages) {
-      await handlePageChange(currentPage + 1);
-    }
-  };
-
-  // Função para gerar números de página inteligentes
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 7; // Máximo de páginas visíveis
-    
-    if (totalPages <= maxVisiblePages) {
-      // Se há poucas páginas, mostra todas
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      // Se há muitas páginas, mostra um subconjunto inteligente
-      if (currentPage <= 4) {
-        // Páginas iniciais: 1, 2, 3, 4, 5, ..., totalPages
-        for (let i = 1; i <= 5; i++) {
-          pages.push(i);
-        }
-        pages.push('...');
-        pages.push(totalPages);
-      } else if (currentPage >= totalPages - 3) {
-        // Páginas finais: 1, ..., totalPages-4, totalPages-3, totalPages-2, totalPages-1, totalPages
-        pages.push(1);
-        pages.push('...');
-        for (let i = totalPages - 4; i <= totalPages; i++) {
-          pages.push(i);
-        }
-      } else {
-        // Páginas do meio: 1, ..., currentPage-1, currentPage, currentPage+1, ..., totalPages
-        pages.push(1);
-        pages.push('...');
-        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-          pages.push(i);
-        }
-        pages.push('...');
-        pages.push(totalPages);
-      }
-    }
-    
-    return pages;
   };
 
   if (loading) {
     return (
       <div className="finnhub-container">
-        <div className="finnhub-header">
-          <h2>📰 Notícias Financeiras</h2>
-          <p>Últimas notícias do mercado crypto</p>
-        </div>
         <div className="loading-container">
           <div className="loading-spinner"></div>
           <p>Carregando notícias...</p>
@@ -189,22 +136,20 @@ export default function FinnhubNews() {
             </div>
             
             <h3 className="news-title">
-              <a href={newsItem.url} target="_blank" rel="noopener noreferrer">
+              <Link to={`/news/finnhub-${currentPage}-${index + 1}`}>
                 {newsItem.title}
-              </a>
+              </Link>
             </h3>
             
             <p className="news-summary">{newsItem.summary}</p>
             
             <div className="news-footer">
-              <a 
-                href={newsItem.url} 
-                target="_blank" 
-                rel="noopener noreferrer"
+              <Link 
+                to={`/news/finnhub-${currentPage}-${index + 1}`}
                 className="read-more-btn"
               >
                 Ler mais →
-              </a>
+              </Link>
             </div>
           </div>
         ))}
@@ -253,4 +198,45 @@ export default function FinnhubNews() {
       )}
     </div>
   );
+
+  // Função para gerar números de página inteligentes
+  function getPageNumbers() {
+    const pages = [];
+    const maxVisiblePages = 7; // Máximo de páginas visíveis
+    
+    if (totalPages <= maxVisiblePages) {
+      // Se há poucas páginas, mostra todas
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Se há muitas páginas, mostra um subconjunto inteligente
+      if (currentPage <= 4) {
+        // Páginas iniciais: 1, 2, 3, 4, 5, ..., totalPages
+        for (let i = 1; i <= 5; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 3) {
+        // Páginas finais: 1, ..., totalPages-4, totalPages-3, totalPages-2, totalPages-1, totalPages
+        pages.push(1);
+        pages.push('...');
+        for (let i = totalPages - 4; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        // Páginas do meio: 1, ..., currentPage-1, currentPage, currentPage+1, ..., totalPages
+        pages.push(1);
+        pages.push('...');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    
+    return pages;
+  }
 }

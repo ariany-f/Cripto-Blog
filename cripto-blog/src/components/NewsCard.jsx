@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import './NewsCard.css';
 
 export default function NewsCard({ newsData = [], sentimentData = [] }) {
@@ -37,22 +38,16 @@ export default function NewsCard({ newsData = [], sentimentData = [] }) {
   // Filtrar notícias
   const filteredNews = useMemo(() => {
     return newsData.filter(news => {
-      // Filtro por sentimento
       if (filterSentiment !== 'all' && news.sentiment !== filterSentiment) {
         return false;
       }
-
-      // Filtro por fonte
       if (filterSource !== 'all' && news.source !== filterSource) {
         return false;
       }
-
-      // Filtro por busca
       if (searchTerm && !news.title.toLowerCase().includes(searchTerm.toLowerCase()) && 
           !news.summary.toLowerCase().includes(searchTerm.toLowerCase())) {
         return false;
       }
-
       return true;
     });
   }, [newsData, filterSentiment, filterSource, searchTerm]);
@@ -81,7 +76,6 @@ export default function NewsCard({ newsData = [], sentimentData = [] }) {
             className="search-input"
           />
         </div>
-
         <div className="filter-group">
           <label>📊 Sentimento:</label>
           <select
@@ -95,7 +89,6 @@ export default function NewsCard({ newsData = [], sentimentData = [] }) {
             <option value="neutral">Neutro</option>
           </select>
         </div>
-
         <div className="filter-group">
           <label>📰 Fonte:</label>
           <select
@@ -144,9 +137,9 @@ export default function NewsCard({ newsData = [], sentimentData = [] }) {
             )}
             
             <h3 className="news-title">
-              <a href={news.url || '#'} target="_blank" rel="noopener noreferrer">
+              <Link to={`/news/${index + 1}`}>
                 {news.title}
-              </a>
+              </Link>
             </h3>
             
             <p className="news-summary">{news.summary}</p>
