@@ -8,6 +8,9 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -20,6 +23,8 @@ body {
   font-weight: 400;
   min-height: 100vh;
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 /* Variáveis CSS - Design System Google */
@@ -98,33 +103,40 @@ body {
   display: flex;
   flex-direction: column;
   background: var(--bg-primary);
+  margin: 0;
+  padding: 0;
+  position: relative;
 }
 
 .main-content {
   flex: 1;
   padding: 0;
   margin: 0;
+  background: var(--bg-primary);
 }
 
 /* Header Principal - Google Material Design */
 .main-header {
   background: var(--bg-primary);
   border-bottom: 1px solid var(--border-color);
-  padding: var(--space-4) 0;
+  padding: 0;
   position: sticky;
-  top: 0;
+  top: -1px; /* Evita o espaço estranho */
   z-index: 100;
   box-shadow: var(--shadow-1);
+  margin: 0;
+  transform: translateZ(0); /* Força hardware acceleration */
 }
 
 .header-container {
   max-width: var(--container-2xl);
   margin: 0 auto;
-  padding: 0 var(--space-5);
+  padding: var(--space-4) var(--space-5);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 64px;
+  min-height: 64px;
+  background: var(--bg-primary); /* Garante que o fundo seja consistente */
 }
 
 .logo-section {
