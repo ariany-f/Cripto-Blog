@@ -252,14 +252,6 @@ export default function CryptoDashboard() {
 
         {/* Conteúdo Principal */}
         <div className="main-content-area">
-          {/* Dashboard Geral */}
-          <div id="dashboard" className="main-section">
-            <div className="section-header">
-              <h2>📊 Dashboard Geral</h2>
-              <p>Visão geral do mercado de criptomoedas</p>
-            </div>
-          </div>
-
           {/* Notícias Principais */}
           <div id="noticias" className="main-section">
             <NewsCard newsData={newsData} sentimentData={sentimentData} />

@@ -52,7 +52,7 @@ function App() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2024 CryptoNews. Todos os direitos reservados.</p>
+            <p>&copy; 2025 CryptoNews. Todos os direitos reservados.</p>
           </div>
         </footer>
       </div>
