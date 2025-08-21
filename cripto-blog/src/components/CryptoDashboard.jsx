@@ -3,8 +3,6 @@ import CryptoTable from './CryptoTable';
 import NewsCard from './NewsCard';
 import FinnhubNews from './FinnhubNews';
 import { getCryptoMarket } from '../services/marketApi';
-import { getCryptoNews } from '../services/newsApi';
-import { analyzeMultipleSentiments } from '../services/sentimentApi';
 import './CryptoDashboard.css';
 
 export default function CryptoDashboard() {
@@ -32,48 +30,51 @@ export default function CryptoDashboard() {
         setMarketData([]);
       }
 
-      // Buscar notícias
-      try {
-        const news = await getCryptoNews();
-        setNewsData(news);
-
-        // Analisar sentimento das notícias
-        if (news.length > 0) {
-          const sentiments = await analyzeMultipleSentiments(news.slice(0, 10));
-          setSentimentData(sentiments);
+      // Usar dados de exemplo para notícias (evitar APIs que estão falhando)
+      setNewsData([
+        {
+          title: 'Bitcoin atinge nova máxima do ano',
+          summary: 'BTC supera resistência importante e atinge $45k, impulsionado por adoção institucional e ETF approvals',
+          sentiment: 'positive',
+          source: 'CryptoNews',
+          publishedAt: '2024-01-15T10:30:00Z'
+        },
+        {
+          title: 'Ethereum enfrenta correção técnica',
+          summary: 'ETH cai 1.2% após teste de suporte, mas fundamentos permanecem sólidos com upgrade Shanghai',
+          sentiment: 'negative',
+          source: 'CoinDesk',
+          publishedAt: '2024-01-15T09:15:00Z'
+        },
+        {
+          title: 'Solana mostra força no mercado',
+          summary: 'SOL lidera altcoins com alta de 2.9%, beneficiando-se de melhorias na rede e adoção DeFi',
+          sentiment: 'positive',
+          source: 'CryptoSlate',
+          publishedAt: '2024-01-15T08:45:00Z'
+        },
+        {
+          title: 'Regulamentação crypto avança na Europa',
+          summary: 'Nova legislação MiCA traz clareza regulatória para o mercado europeu de criptomoedas',
+          sentiment: 'positive',
+          source: 'CoinTelegraph',
+          publishedAt: '2024-01-15T07:30:00Z'
+        },
+        {
+          title: 'Binance anuncia novos produtos DeFi',
+          summary: 'Exchange lança plataforma de yield farming e staking avançado para usuários institucionais',
+          sentiment: 'positive',
+          source: 'CryptoNews',
+          publishedAt: '2024-01-15T06:15:00Z'
         }
-      } catch (newsError) {
-        console.warn('Erro ao buscar notícias:', newsError);
-        // Usar dados de exemplo para notícias
-        setNewsData([
-          {
-            title: 'Bitcoin atinge nova máxima do ano',
-            summary: 'BTC supera resistência importante e atinge $45k, impulsionado por adoção institucional',
-            sentiment: 'positive',
-            source: 'CryptoNews',
-            publishedAt: '2024-01-15T10:30:00Z'
-          },
-          {
-            title: 'Ethereum enfrenta correção técnica',
-            summary: 'ETH cai 1.2% após teste de suporte, mas fundamentos permanecem sólidos',
-            sentiment: 'negative',
-            source: 'CoinDesk',
-            publishedAt: '2024-01-15T09:15:00Z'
-          },
-          {
-            title: 'Solana mostra força no mercado',
-            summary: 'SOL lidera altcoins com alta de 2.9%, beneficiando-se de melhorias na rede',
-            sentiment: 'positive',
-            source: 'CryptoSlate',
-            publishedAt: '2024-01-15T08:45:00Z'
-          }
-        ]);
-        setSentimentData([
-          { label: 'Positivo', value: 60, color: '#34a853' },
-          { label: 'Neutro', value: 25, color: '#9aa0a6' },
-          { label: 'Negativo', value: 15, color: '#ea4335' }
-        ]);
-      }
+      ]);
+
+      // Dados de sentimento de exemplo
+      setSentimentData([
+        { label: 'Positivo', value: 60, color: '#34a853' },
+        { label: 'Neutro', value: 25, color: '#9aa0a6' },
+        { label: 'Negativo', value: 15, color: '#ea4335' }
+      ]);
       
       setLastUpdate(new Date());
       setIsOnline(true);
@@ -94,21 +95,21 @@ export default function CryptoDashboard() {
       setNewsData([
         {
           title: 'Bitcoin atinge nova máxima do ano',
-          summary: 'BTC supera resistência importante e atinge $45k, impulsionado por adoção institucional',
+          summary: 'BTC supera resistência importante e atinge $45k, impulsionado por adoção institucional e ETF approvals',
           sentiment: 'positive',
           source: 'CryptoNews',
           publishedAt: '2024-01-15T10:30:00Z'
         },
         {
           title: 'Ethereum enfrenta correção técnica',
-          summary: 'ETH cai 1.2% após teste de suporte, mas fundamentos permanecem sólidos',
+          summary: 'ETH cai 1.2% após teste de suporte, mas fundamentos permanecem sólidos com upgrade Shanghai',
           sentiment: 'negative',
           source: 'CoinDesk',
           publishedAt: '2024-01-15T09:15:00Z'
         },
         {
           title: 'Solana mostra força no mercado',
-          summary: 'SOL lidera altcoins com alta de 2.9%, beneficiando-se de melhorias na rede',
+          summary: 'SOL lidera altcoins com alta de 2.9%, beneficiando-se de melhorias na rede e adoção DeFi',
           sentiment: 'positive',
           source: 'CryptoSlate',
           publishedAt: '2024-01-15T08:45:00Z'
