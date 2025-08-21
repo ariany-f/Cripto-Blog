@@ -16,19 +16,29 @@ export default function CryptoDashboard() {
       setError(null);
 
       const market = await getCryptoMarket();
-      setMarketData(market);
+      
+      // Garantir que market seja um array
+      if (Array.isArray(market)) {
+        setMarketData(market);
+      } else {
+        console.warn('Dados do mercado não são um array:', market);
+        setMarketData([]);
+      }
+      
       setLastUpdate(new Date());
       setIsOnline(true);
     } catch (err) {
       console.error('Erro ao buscar dados:', err);
-      setError('Erro ao carregar dados. Verificando conexão...');
+      setError('Erro ao carregar dados. Usando dados de exemplo.');
       setIsOnline(false);
       
       // Dados de exemplo em caso de erro
       setMarketData([
         { symbol: 'BTC', name: 'Bitcoin', price: 45000, change24h: 2.5, marketCap: 850000000000, volume24h: 25000000000, marketCapDominance: 52.3 },
         { symbol: 'ETH', name: 'Ethereum', price: 3200, change24h: -1.2, marketCap: 380000000000, volume24h: 18000000000, marketCapDominance: 23.1 },
-        { symbol: 'BNB', name: 'Binance Coin', price: 868.97, change24h: 4.62, marketCap: 130000000000, volume24h: 1200000000, marketCapDominance: 7.8 }
+        { symbol: 'BNB', name: 'Binance Coin', price: 868.97, change24h: 4.62, marketCap: 130000000000, volume24h: 1200000000, marketCapDominance: 7.8 },
+        { symbol: 'SOL', name: 'Solana', price: 186.12, change24h: 2.93, marketCap: 75000000000, volume24h: 2100000000, marketCapDominance: 4.5 },
+        { symbol: 'USDC', name: 'USD Coin', price: 1.0001, change24h: -0.01, marketCap: 45000000000, volume24h: 8000000000, marketCapDominance: 2.7 }
       ]);
     } finally {
       setLoading(false);
@@ -37,8 +47,9 @@ export default function CryptoDashboard() {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 5 * 60 * 1000);
-    return () => clearInterval(interval);
+    // Removendo o intervalo automático para evitar rate limiting
+    // const interval = setInterval(fetchData, 5 * 60 * 1000);
+    // return () => clearInterval(interval);
   }, []);
 
   const handleRefresh = () => {
@@ -54,14 +65,17 @@ export default function CryptoDashboard() {
     });
   };
 
+  // Garantir que marketData seja sempre um array
+  const safeMarketData = Array.isArray(marketData) ? marketData : [];
+  
   // Dados para as sidebars
-  const topCoins = marketData.slice(0, 5);
-  const totalMarketCap = marketData.reduce((sum, coin) => sum + (coin.marketCap || 0), 0);
-  const totalVolume = marketData.reduce((sum, coin) => sum + (coin.volume24h || 0), 0);
-  const upCoins = marketData.filter(coin => coin.change24h > 0).length;
-  const downCoins = marketData.filter(coin => coin.change24h < 0).length;
+  const topCoins = safeMarketData.slice(0, 5);
+  const totalMarketCap = safeMarketData.reduce((sum, coin) => sum + (coin.marketCap || 0), 0);
+  const totalVolume = safeMarketData.reduce((sum, coin) => sum + (coin.volume24h || 0), 0);
+  const upCoins = safeMarketData.filter(coin => coin.change24h > 0).length;
+  const downCoins = safeMarketData.filter(coin => coin.change24h < 0).length;
 
-  if (loading && marketData.length === 0) {
+  if (loading && safeMarketData.length === 0) {
     return (
       <div className="dashboard-container">
         <div className="loading-container">
@@ -126,7 +140,7 @@ export default function CryptoDashboard() {
           <div className="sidebar-card">
             <h3>📊 Estatísticas do Mercado</h3>
             <div className="data-context">
-              <span className="context-label">📈 Baseado em {marketData.length} criptomoedas</span>
+              <span className="context-label">📈 Baseado em {safeMarketData.length} criptomoedas</span>
               <span className="context-time">ÚLTIMAS 24 HORAS</span>
             </div>
             <div className="market-stat">
@@ -139,7 +153,7 @@ export default function CryptoDashboard() {
             </div>
             <div className="market-stat">
               <span className="stat-label">ESTÁVEIS (=0%):</span>
-              <span className="stat-value">{marketData.length - upCoins - downCoins} moedas</span>
+              <span className="stat-value">{safeMarketData.length - upCoins - downCoins} moedas</span>
             </div>
           </div>
         </div>
@@ -147,7 +161,7 @@ export default function CryptoDashboard() {
         {/* Conteúdo Principal - Tabela de Dados */}
         <div className="main-content-area">
           <div className="main-section">
-            <CryptoTable marketData={marketData} />
+            <CryptoTable marketData={safeMarketData} />
           </div>
         </div>
 
@@ -185,7 +199,7 @@ export default function CryptoDashboard() {
             </div>
             <div className="market-stat">
               <span className="stat-label">ESTÁVEIS (=0%):</span>
-              <span className="stat-value">{marketData.length - upCoins - downCoins} moedas</span>
+              <span className="stat-value">{safeMarketData.length - upCoins - downCoins} moedas</span>
             </div>
           </div>
         </div>

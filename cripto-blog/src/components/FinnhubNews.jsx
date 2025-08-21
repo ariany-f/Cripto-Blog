@@ -9,115 +9,34 @@ export default function FinnhubNews() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalNews, setTotalNews] = useState(0);
+  const [isLoadingPage, setIsLoadingPage] = useState(false);
   const itemsPerPage = 5;
 
   useEffect(() => {
-    fetchNews();
+    fetchNews(1);
   }, []);
 
-  const fetchNews = async () => {
+  const fetchNews = async (page = 1) => {
     try {
-      setLoading(true);
+      if (page === 1) {
+        setLoading(true);
+      } else {
+        setIsLoadingPage(true);
+      }
       setError(null);
-      const newsData = await getCryptoNewsFinnhub();
-      setNews(newsData);
-      setTotalNews(newsData.length);
-      setTotalPages(Math.ceil(newsData.length / itemsPerPage));
-      setCurrentPage(1);
+      
+      const response = await getCryptoNewsFinnhub(page, itemsPerPage);
+      
+      setNews(response.news);
+      setTotalNews(response.total);
+      setTotalPages(response.totalPages);
+      setCurrentPage(response.page);
     } catch (err) {
       console.error('Erro ao buscar notícias Finnhub:', err);
       setError('Erro ao carregar notícias. Usando dados de exemplo.');
-      
-      // Dados de exemplo
-      const exampleNews = [
-        {
-          title: 'Bitcoin atinge nova máxima do ano',
-          summary: 'BTC supera resistência importante e atinge $45k, impulsionado por adoção institucional',
-          url: '#',
-          source: 'CryptoNews',
-          publishedAt: '2024-01-15T10:30:00Z',
-          sentiment: 'positive'
-        },
-        {
-          title: 'Ethereum enfrenta correção técnica',
-          summary: 'ETH cai 1.2% após teste de suporte, mas fundamentos permanecem sólidos',
-          url: '#',
-          source: 'CoinDesk',
-          publishedAt: '2024-01-15T09:15:00Z',
-          sentiment: 'negative'
-        },
-        {
-          title: 'Solana mostra força no mercado',
-          summary: 'SOL lidera altcoins com alta de 2.9%, beneficiando-se de melhorias na rede',
-          url: '#',
-          source: 'CryptoSlate',
-          publishedAt: '2024-01-15T08:45:00Z',
-          sentiment: 'positive'
-        },
-        {
-          title: 'Regulamentação crypto avança na Europa',
-          summary: 'Nova legislação MiCA traz clareza regulatória para o mercado europeu',
-          url: '#',
-          source: 'CoinTelegraph',
-          publishedAt: '2024-01-15T07:30:00Z',
-          sentiment: 'positive'
-        },
-        {
-          title: 'Binance anuncia novos produtos DeFi',
-          summary: 'Exchange lança plataforma de yield farming e staking avançado',
-          url: '#',
-          source: 'CryptoNews',
-          publishedAt: '2024-01-15T06:15:00Z',
-          sentiment: 'positive'
-        },
-        {
-          title: 'Cardano implementa atualização importante',
-          summary: 'ADA ativa nova funcionalidade de smart contracts na rede principal',
-          url: '#',
-          source: 'CoinDesk',
-          publishedAt: '2024-01-15T05:00:00Z',
-          sentiment: 'positive'
-        },
-        {
-          title: 'Polkadot anuncia parceria estratégica',
-          summary: 'DOT firma acordo com empresa de tecnologia tradicional',
-          url: '#',
-          source: 'CryptoSlate',
-          publishedAt: '2024-01-15T04:30:00Z',
-          sentiment: 'positive'
-        },
-        {
-          title: 'Chainlink expande oráculos',
-          summary: 'LINK adiciona novos feeds de dados para DeFi',
-          url: '#',
-          source: 'CoinTelegraph',
-          publishedAt: '2024-01-15T03:45:00Z',
-          sentiment: 'positive'
-        },
-        {
-          title: 'Uniswap v4 em desenvolvimento',
-          summary: 'UNI prepara nova versão com recursos avançados de liquidez',
-          url: '#',
-          source: 'CryptoNews',
-          publishedAt: '2024-01-15T02:20:00Z',
-          sentiment: 'positive'
-        },
-        {
-          title: 'Avalanche enfrenta competição',
-          summary: 'AVAX perde market share para concorrentes Layer 1',
-          url: '#',
-          source: 'CoinDesk',
-          publishedAt: '2024-01-15T01:10:00Z',
-          sentiment: 'negative'
-        }
-      ];
-      
-      setNews(exampleNews);
-      setTotalNews(exampleNews.length);
-      setTotalPages(Math.ceil(exampleNews.length / itemsPerPage));
-      setCurrentPage(1);
     } finally {
       setLoading(false);
+      setIsLoadingPage(false);
     }
   };
 
@@ -158,25 +77,22 @@ export default function FinnhubNews() {
     }
   };
 
-  // Calcular notícias da página atual
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentNews = news.slice(startIndex, endIndex);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      handlePageChange(currentPage - 1);
+  const handlePageChange = async (page) => {
+    if (page !== currentPage) {
+      await fetchNews(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  const handleNextPage = () => {
+  const handlePreviousPage = async () => {
+    if (currentPage > 1) {
+      await handlePageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = async () => {
     if (currentPage < totalPages) {
-      handlePageChange(currentPage + 1);
+      await handlePageChange(currentPage + 1);
     }
   };
 
@@ -208,9 +124,16 @@ export default function FinnhubNews() {
         </div>
       )}
 
+      {isLoadingPage && (
+        <div className="page-loading">
+          <div className="loading-spinner"></div>
+          <span>Carregando página...</span>
+        </div>
+      )}
+
       <div className="news-grid">
-        {currentNews.map((newsItem, index) => (
-          <div key={index} className="news-card">
+        {news.map((newsItem, index) => (
+          <div key={`${newsItem.id}-${currentPage}-${index}`} className="news-card">
             <div className="news-header">
               <div className="news-meta">
                 <span className="news-source">{newsItem.source}</span>
@@ -251,7 +174,7 @@ export default function FinnhubNews() {
         <div className="pagination-container">
           <div className="pagination-info">
             <span>
-              Mostrando {startIndex + 1}-{Math.min(endIndex, totalNews)} de {totalNews} notícias
+              Página {currentPage} de {totalPages} • {totalNews} notícias no total
             </span>
           </div>
           
@@ -259,7 +182,7 @@ export default function FinnhubNews() {
             <button 
               className="pagination-btn"
               onClick={handlePreviousPage}
-              disabled={currentPage === 1}
+              disabled={currentPage === 1 || isLoadingPage}
             >
               ← Anterior
             </button>
@@ -270,6 +193,7 @@ export default function FinnhubNews() {
                   key={page}
                   className={`page-btn ${currentPage === page ? 'active' : ''}`}
                   onClick={() => handlePageChange(page)}
+                  disabled={isLoadingPage}
                 >
                   {page}
                 </button>
@@ -279,7 +203,7 @@ export default function FinnhubNews() {
             <button 
               className="pagination-btn"
               onClick={handleNextPage}
-              disabled={currentPage === totalPages}
+              disabled={currentPage === totalPages || isLoadingPage}
             >
               Próxima →
             </button>

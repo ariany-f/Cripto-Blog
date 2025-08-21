@@ -8,6 +8,9 @@ export default function CryptoTable({ data }) {
   const [filterChange24h, setFilterChange24h] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Garantir que data seja sempre um array
+  const safeData = Array.isArray(data) ? data : [];
+
   const formatNumber = (num) => {
     if (num >= 1e12) return `$${(num / 1e12).toFixed(2)}T`;
     if (num >= 1e9) return `$${(num / 1e9).toFixed(2)}B`;
@@ -32,13 +35,13 @@ export default function CryptoTable({ data }) {
   };
 
   const filteredAndSortedData = useMemo(() => {
-    let filtered = [...data];
+    let filtered = [...safeData];
 
     // Filtro por busca
     if (searchTerm) {
       filtered = filtered.filter(coin => 
-        coin.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        coin.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+        coin.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        coin.symbol?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -46,13 +49,13 @@ export default function CryptoTable({ data }) {
     if (filterMarketCap !== 'all') {
       switch (filterMarketCap) {
         case 'large':
-          filtered = filtered.filter(coin => coin.marketCap >= 10e9); // $10B+
+          filtered = filtered.filter(coin => (coin.marketCap || 0) >= 10e9); // $10B+
           break;
         case 'medium':
-          filtered = filtered.filter(coin => coin.marketCap >= 1e9 && coin.marketCap < 10e9); // $1B-$10B
+          filtered = filtered.filter(coin => (coin.marketCap || 0) >= 1e9 && (coin.marketCap || 0) < 10e9); // $1B-$10B
           break;
         case 'small':
-          filtered = filtered.filter(coin => coin.marketCap < 1e9); // <$1B
+          filtered = filtered.filter(coin => (coin.marketCap || 0) < 1e9); // <$1B
           break;
         default:
           break;
@@ -63,13 +66,13 @@ export default function CryptoTable({ data }) {
     if (filterChange24h !== 'all') {
       switch (filterChange24h) {
         case 'gainers':
-          filtered = filtered.filter(coin => coin.change24h > 5); // >5%
+          filtered = filtered.filter(coin => (coin.change24h || 0) > 5); // >5%
           break;
         case 'losers':
-          filtered = filtered.filter(coin => coin.change24h < -5); // <-5%
+          filtered = filtered.filter(coin => (coin.change24h || 0) < -5); // <-5%
           break;
         case 'stable':
-          filtered = filtered.filter(coin => coin.change24h >= -5 && coin.change24h <= 5); // -5% to 5%
+          filtered = filtered.filter(coin => (coin.change24h || 0) >= -5 && (coin.change24h || 0) <= 5); // -5% to 5%
           break;
         default:
           break;
@@ -78,12 +81,12 @@ export default function CryptoTable({ data }) {
 
     // Ordenação
     filtered.sort((a, b) => {
-      let aValue = a[sortBy];
-      let bValue = b[sortBy];
+      let aValue = a[sortBy] || 0;
+      let bValue = b[sortBy] || 0;
 
       if (sortBy === 'name' || sortBy === 'symbol') {
-        aValue = aValue.toLowerCase();
-        bValue = bValue.toLowerCase();
+        aValue = (aValue || '').toLowerCase();
+        bValue = (bValue || '').toLowerCase();
       }
 
       if (sortOrder === 'asc') {
@@ -94,12 +97,24 @@ export default function CryptoTable({ data }) {
     });
 
     return filtered;
-  }, [data, sortBy, sortOrder, filterMarketCap, filterChange24h, searchTerm]);
+  }, [safeData, sortBy, sortOrder, filterMarketCap, filterChange24h, searchTerm]);
 
   const getSortIcon = (column) => {
     if (sortBy !== column) return '↕️';
     return sortOrder === 'asc' ? '↑' : '↓';
   };
+
+  // Se não há dados, mostrar mensagem
+  if (safeData.length === 0) {
+    return (
+      <div className="crypto-table-container">
+        <div className="no-data-message">
+          <p>📊 Nenhum dado de mercado disponível no momento.</p>
+          <p>Tente atualizar a página ou verificar sua conexão.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="crypto-table-container">
@@ -138,77 +153,75 @@ export default function CryptoTable({ data }) {
             className="filter-select"
           >
             <option value="all">Todas as variações</option>
-            <option value="gainers">Gainers (&gt;+5%)</option>
+            <option value="gainers">Gainers (&gt;5%)</option>
             <option value="losers">Losers (&lt;-5%)</option>
-            <option value="stable">Estáveis (-5% a +5%)</option>
+            <option value="stable">Estáveis (-5% a 5%)</option>
           </select>
         </div>
 
         <div className="filter-group">
           <label>📊 Resultados:</label>
-          <span className="results-count">{filteredAndSortedData.length} de {data.length} moedas</span>
+          <span className="results-count">
+            {filteredAndSortedData.length} de {safeData.length} moedas
+          </span>
         </div>
       </div>
 
-      <div className="crypto-table">
-        <table>
+      {/* Tabela */}
+      <div className="table-container">
+        <table className="crypto-table">
           <thead>
             <tr>
               <th onClick={() => handleSort('cmcRank')} className="sortable">
-                Rank {getSortIcon('cmcRank')}
+                RANK {getSortIcon('cmcRank')}
               </th>
               <th onClick={() => handleSort('name')} className="sortable">
-                Moeda {getSortIcon('name')}
+                MOEDA {getSortIcon('name')}
               </th>
               <th onClick={() => handleSort('symbol')} className="sortable">
-                Símbolo {getSortIcon('symbol')}
+                SÍMBOLO {getSortIcon('symbol')}
               </th>
               <th onClick={() => handleSort('price')} className="sortable">
-                Preço Atual {getSortIcon('price')}
+                PREÇO ATUAL {getSortIcon('price')}
               </th>
               <th onClick={() => handleSort('change24h')} className="sortable">
-                Variação 24h {getSortIcon('change24h')}
+                VARIAÇÃO 24H {getSortIcon('change24h')}
               </th>
               <th onClick={() => handleSort('volume24h')} className="sortable">
-                Volume 24h {getSortIcon('volume24h')}
+                VOLUME 24H {getSortIcon('volume24h')}
               </th>
               <th onClick={() => handleSort('marketCap')} className="sortable">
-                Market Cap {getSortIcon('marketCap')}
+                MARKET CAP {getSortIcon('marketCap')}
               </th>
             </tr>
           </thead>
           <tbody>
-            {filteredAndSortedData.map((coin) => (
-              <tr key={coin.id} className="crypto-row">
-                <td className="rank-column">
-                  <span className="rank-badge">
-                    {coin.cmcRank || 'N/A'}
+            {filteredAndSortedData.map((coin, index) => (
+              <tr key={`${coin.symbol}-${index}`}>
+                <td className="rank-cell">
+                  <span className="rank-number">#{coin.cmcRank || index + 1}</span>
+                </td>
+                <td className="name-cell">
+                  <div className="coin-info">
+                    <span className="coin-name">{coin.name || 'N/A'}</span>
+                  </div>
+                </td>
+                <td className="symbol-cell">
+                  <span className="coin-symbol">{coin.symbol || 'N/A'}</span>
+                </td>
+                <td className="price-cell">
+                  <span className="price-value">{formatNumber(coin.price || 0)}</span>
+                </td>
+                <td className={`change-cell ${getChangeColor(coin.change24h || 0)}`}>
+                  <span className="change-value">
+                    {(coin.change24h || 0) >= 0 ? '+' : ''}{(coin.change24h || 0).toFixed(2)}%
                   </span>
                 </td>
-                <td className="name-column">
-                  <div className="coin-info">
-                    <span className="coin-icon">🪙</span>
-                    <span className="coin-name">{coin.name}</span>
-                  </div>
+                <td className="volume-cell">
+                  <span className="volume-value">{formatNumber(coin.volume24h || 0)}</span>
                 </td>
-                <td className="symbol-column">
-                  <span className="symbol-badge">{coin.symbol}</span>
-                </td>
-                <td className="price-column">
-                  <span className="coin-price">{formatNumber(coin.price)}</span>
-                </td>
-                <td className="change-column">
-                  <div className="change-info">
-                    <span className={`change-value ${getChangeColor(coin.change24h)}`}>
-                      {coin.change24h >= 0 ? '+' : ''}{coin.change24h.toFixed(2)}%
-                    </span>
-                  </div>
-                </td>
-                <td className="volume-column">
-                  <span className="coin-volume">{formatNumber(coin.volume24h)}</span>
-                </td>
-                <td className="market-cap-column">
-                  <span className="coin-market-cap">{formatNumber(coin.marketCap)}</span>
+                <td className="market-cap-cell">
+                  <span className="market-cap-value">{formatNumber(coin.marketCap || 0)}</span>
                 </td>
               </tr>
             ))}
@@ -216,9 +229,11 @@ export default function CryptoTable({ data }) {
         </table>
       </div>
 
+      {/* Mensagem quando não há resultados */}
       {filteredAndSortedData.length === 0 && (
-        <div className="no-results">
-          <p>Nenhuma criptomoeda encontrada com os filtros aplicados.</p>
+        <div className="no-results-message">
+          <p>🔍 Nenhuma moeda encontrada com os filtros aplicados.</p>
+          <p>Tente ajustar os filtros ou a busca.</p>
         </div>
       )}
     </div>
