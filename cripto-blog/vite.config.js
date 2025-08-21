@@ -15,8 +15,16 @@ export default defineConfig({
           proxy.on('proxyReq', (proxyReq, req, res) => {
             // Adicionar token como query parameter
             const url = new URL(req.url, 'http://localhost');
+            const apiKey = process.env.VITE_CRYPTONEWS_API_KEY;
+            
             if (!url.searchParams.has('token')) {
-              url.searchParams.set('token', process.env.VITE_CRYPTONEWS_API_KEY || 'demo');
+              if (apiKey && apiKey !== 'demo') {
+                url.searchParams.set('token', apiKey);
+                console.log('🔑 Usando API key real para Crypto News');
+              } else {
+                url.searchParams.set('token', 'demo');
+                console.log('⚠️ Usando token demo para Crypto News - configure VITE_CRYPTONEWS_API_KEY');
+              }
               proxyReq.path = url.pathname + url.search;
             }
           });
@@ -30,7 +38,15 @@ export default defineConfig({
         configure: (proxy, options) => {
           proxy.on('proxyReq', (proxyReq, req, res) => {
             // Adicionar header de autorização
-            proxyReq.setHeader('X-CMC_PRO_API_KEY', process.env.VITE_COINMARKETCAP_API_KEY || 'demo');
+            const apiKey = process.env.VITE_COINMARKETCAP_API_KEY;
+            
+            if (apiKey && apiKey !== 'demo') {
+              proxyReq.setHeader('X-CMC_PRO_API_KEY', apiKey);
+              console.log('🔑 Usando API key real para CoinMarketCap');
+            } else {
+              proxyReq.setHeader('X-CMC_PRO_API_KEY', 'b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c'); // Token de exemplo
+              console.log('⚠️ Usando token de exemplo para CoinMarketCap - configure VITE_COINMARKETCAP_API_KEY');
+            }
           });
         }
       },
@@ -43,8 +59,16 @@ export default defineConfig({
           proxy.on('proxyReq', (proxyReq, req, res) => {
             // Adicionar token como query parameter
             const url = new URL(req.url, 'http://localhost');
+            const apiKey = process.env.VITE_FINNHUB_API_KEY;
+            
             if (!url.searchParams.has('token')) {
-              url.searchParams.set('token', process.env.VITE_FINNHUB_API_KEY || 'demo');
+              if (apiKey && apiKey !== 'demo') {
+                url.searchParams.set('token', apiKey);
+                console.log('🔑 Usando API key real para Finnhub');
+              } else {
+                url.searchParams.set('token', 'demo');
+                console.log('⚠️ Usando token demo para Finnhub - configure VITE_FINNHUB_API_KEY');
+              }
               proxyReq.path = url.pathname + url.search;
             }
           });
@@ -58,7 +82,15 @@ export default defineConfig({
         configure: (proxy, options) => {
           proxy.on('proxyReq', (proxyReq, req, res) => {
             // Adicionar header de autorização
-            proxyReq.setHeader('Authorization', `Bearer ${process.env.VITE_HUGGINGFACE_API_KEY || 'hf_demo'}`);
+            const apiKey = process.env.VITE_HUGGINGFACE_API_KEY;
+            
+            if (apiKey && apiKey !== 'demo') {
+              proxyReq.setHeader('Authorization', `Bearer ${apiKey}`);
+              console.log('🔑 Usando API key real para Hugging Face');
+            } else {
+              proxyReq.setHeader('Authorization', 'Bearer hf_demo');
+              console.log('⚠️ Usando token demo para Hugging Face - configure VITE_HUGGINGFACE_API_KEY');
+            }
             proxyReq.setHeader('Content-Type', 'application/json');
           });
         }
