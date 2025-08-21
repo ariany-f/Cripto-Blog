@@ -252,8 +252,16 @@ export default function CryptoDashboard() {
 
         {/* Conteúdo Principal */}
         <div className="main-content-area">
+          {/* Dashboard Geral */}
+          <div id="dashboard" className="main-section">
+            <div className="section-header">
+              <h2>📊 Dashboard Geral</h2>
+              <p>Visão geral do mercado de criptomoedas</p>
+            </div>
+          </div>
+
           {/* Notícias Principais */}
-          <div className="main-section">
+          <div id="noticias" className="main-section">
             <NewsCard newsData={newsData} sentimentData={sentimentData} />
           </div>
 
@@ -263,7 +271,7 @@ export default function CryptoDashboard() {
           </div>
 
           {/* Gráfico de Sentimento */}
-          <div className="main-section">
+          <div id="sentimento" className="main-section">
             <SentimentChart data={sentimentData} />
           </div>
 
@@ -273,7 +281,7 @@ export default function CryptoDashboard() {
           </div>
 
           {/* Tabela de Criptomoedas */}
-          <div className="main-section">
+          <div id="mercado" className="main-section">
             <CryptoTable marketData={safeMarketData} />
           </div>
         </div>

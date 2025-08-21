@@ -14,9 +14,9 @@ function App() {
           </div>
           <nav className="main-nav">
             <ul>
-              <li><a href="#mercado">Mercado</a></li>
+              <li><a href="#dashboard">Dashboard</a></li>
               <li><a href="#noticias">Notícias</a></li>
-              <li><a href="#analise">Análise</a></li>
+              <li><a href="#mercado">Mercado</a></li>
               <li><a href="#sentimento">Sentimento</a></li>
             </ul>
           </nav>
